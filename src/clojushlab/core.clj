@@ -44,8 +44,19 @@
   (def index (count '(concat (nth m1 0) (nth m1 1))))
   (split-at index (map op (concat (nth m1 0) (nth m1 1)) (concat (nth m2 0) (nth m2 1)))))
 
+ (defn transpose
+  [s]
+  (apply map vector s))
+ 
+(defn nested-for
+  [f x y]
+  (map (fn [a]
+         (map (fn [b] 
+                (f a b)) y))
+       x))
 (defn mul-mat
-  [m1 m2])
+  [m1 m2]
+  (nested-for (fn [x y] (reduce + (map * x y))) m1 (transpose m2)))
 
 (defn execute 
   [m1 op m2]
